@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lac Bangles Manufacturing - Management System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app" class="app-container">
+        <nav class="navbar">
+            <div class="nav-container">
+                <h1 class="logo">🎨 Lac Bangles Manufacturing</h1>
+                <ul class="nav-menu">
+                    <li><a href="#dashboard" onclick="showSection('dashboard')">Dashboard</a></li>
+                    <li><a href="#production" onclick="showSection('production')">Production</a></li>
+                    <li><a href="#materials" onclick="showSection('materials')">Materials</a></li>
+                    <li><a href="#quality" onclick="showSection('quality')">Quality</a></li>
+                    <li><a href="#labor" onclick="showSection('labor')">Labor</a></li>
+                    <li><a href="#costs" onclick="showSection('costs')">Costs</a></li>
+                    <li><a href="#shipping" onclick="showSection('shipping')">Shipping</a></li>
+                    <li><a href="#reports" onclick="showSection('reports')">Reports</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="section active">
+            <h2>Dashboard</h2>
+            <div class="dashboard-grid">
+                <div class="card">
+                    <h3>Total Production</h3>
+                    <p id="totalProduction" class="stat">0</p>
+                </div>
+                <div class="card">
+                    <h3>Completed</h3>
+                    <p id="completedProduction" class="stat">0</p>
+                </div>
+                <div class="card">
+                    <h3>Quality Pass Rate</h3>
+                    <p id="qualityPassRate" class="stat">0%</p>
+                </div>
+                <div class="card">
+                    <h3>Total Labor Cost</h3>
+                    <p id="laborCost" class="stat">₹0</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Production Section -->
+        <section id="production" class="section">
+            <h2>Production Records</h2>
+            <form class="form" onsubmit="addProduction(event)">
+                <div class="form-group">
+                    <label>Batch Number:</label>
+                    <input type="text" id="batchNumber" required>
+                </div>
+                <div class="form-group">
+                    <label>Product Name:</label>
+                    <input type="text" id="productName" required>
+                </div>
+                <div class="form-group">
+                    <label>Quantity:</label>
+                    <input type="number" id="quantity" required>
+                </div>
+                <div class="form-group">
+                    <label>Status:</label>
+                    <select id="status">
+                        <option>Planned</option>
+                        <option>In Progress</option>
+                        <option>Completed</option>
+                        <option>Quality Check</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn">Add Production Record</button>
+            </form>
+            <div id="productionList" class="records-list"></div>
+        </section>
+
+        <!-- Materials Section -->
+        <section id="materials" class="section">
+            <h2>Materials Inventory</h2>
+            <form class="form" onsubmit="addMaterial(event)">
+                <div class="form-group">
+                    <label>Material Name:</label>
+                    <input type="text" id="materialName" required>
+                </div>
+                <div class="form-group">
+                    <label>Category:</label>
+                    <input type="text" id="materialCategory" required>
+                </div>
+                <div class="form-group">
+                    <label>Quantity:</label>
+                    <input type="number" id="materialQuantity" required>
+                </div>
+                <div class="form-group">
+                    <label>Cost per Unit:</label>
+                    <input type="number" id="costPerUnit" step="0.01" required>
+                </div>
+                <button type="submit" class="btn">Add Material</button>
+            </form>
+            <div id="materialsList" class="records-list"></div>
+        </section>
+
+        <!-- Quality Section -->
+        <section id="quality" class="section">
+            <h2>Quality Control</h2>
+            <form class="form" onsubmit="addQuality(event)">
+                <div class="form-group">
+                    <label>Batch Number:</label>
+                    <input type="text" id="qualityBatchNumber" required>
+                </div>
+                <div class="form-group">
+                    <label>Test Type:</label>
+                    <input type="text" id="testType" required>
+                </div>
+                <div class="form-group">
+                    <label>Result:</label>
+                    <select id="qualityResult">
+                        <option>Pass</option>
+                        <option>Fail</option>
+                        <option>Pending</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Remarks:</label>
+                    <textarea id="qualityRemarks"></textarea>
+                </div>
+                <button type="submit" class="btn">Add Quality Record</button>
+            </form>
+            <div id="qualityList" class="records-list"></div>
+        </section>
+
+        <!-- Labor Section -->
+        <section id="labor" class="section">
+            <h2>Labor Management</h2>
+            <form class="form" onsubmit="addLabor(event)">
+                <div class="form-group">
+                    <label>Employee Name:</label>
+                    <input type="text" id="employeeName" required>
+                </div>
+                <div class="form-group">
+                    <label>Hours Worked:</label>
+                    <input type="number" id="hoursWorked" step="0.5" required>
+                </div>
+                <div class="form-group">
+                    <label>Hourly Rate:</label>
+                    <input type="number" id="hourlyRate" step="0.01" required>
+                </div>
+                <button type="submit" class="btn">Add Labor Record</button>
+            </form>
+            <div id="laborList" class="records-list"></div>
+        </section>
+
+        <!-- Costs Section -->
+        <section id="costs" class="section">
+            <h2>Cost Tracking</h2>
+            <form class="form" onsubmit="addCost(event)">
+                <div class="form-group">
+                    <label>Category:</label>
+                    <select id="costCategory">
+                        <option>Materials</option>
+                        <option>Labor</option>
+                        <option>Utilities</option>
+                        <option>Packaging</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Amount:</label>
+                    <input type="number" id="costAmount" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label>Description:</label>
+                    <input type="text" id="costDescription">
+                </div>
+                <button type="submit" class="btn">Add Cost</button>
+            </form>
+            <div id="costsList" class="records-list"></div>
+        </section>
+
+        <!-- Shipping Section -->
+        <section id="shipping" class="section">
+            <h2>Shipping & Orders</h2>
+            <form class="form" onsubmit="addShipping(event)">
+                <div class="form-group">
+                    <label>Order ID:</label>
+                    <input type="text" id="orderId" required>
+                </div>
+                <div class="form-group">
+                    <label>Customer Name:</label>
+                    <input type="text" id="customerName">
+                </div>
+                <div class="form-group">
+                    <label>Quantity:</label>
+                    <input type="number" id="shipQuantity" required>
+                </div>
+                <div class="form-group">
+                    <label>Status:</label>
+                    <select id="shipStatus">
+                        <option>Pending</option>
+                        <option>Shipped</option>
+                        <option>Delivered</option>
+                        <option>Cancelled</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn">Add Shipping Record</button>
+            </form>
+            <div id="shippingList" class="records-list"></div>
+        </section>
+
+        <!-- Reports Section -->
+        <section id="reports" class="section">
+            <h2>Reports & Analytics</h2>
+            <div class="report-buttons">
+                <button class="btn" onclick="generateDailyReport()">Daily Report</button>
+                <button class="btn" onclick="generateMonthlyReport()">Monthly Report</button>
+            </div>
+            <div id="reportContent" class="report-content"></div>
+        </section>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
